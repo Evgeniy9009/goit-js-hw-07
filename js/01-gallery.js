@@ -14,48 +14,55 @@ console.log(gallery);
 //     li.append(img)
 // }
 
-for (let galleryItem of galleryItems) {
-    const gallery__item = document.createElement("div")
-    const link = document.createElement("a")
-    const img = document.createElement("img")
+// for (let galleryItem of galleryItems) {
+//     const gallery__item = document.createElement("div")
+//     const link = document.createElement("a")
+//     const img = document.createElement("img")
 
-    gallery__item.classList.add('gallery__item')
-    link.classList.add("gallery__link")
-    img.classList.add("gallery__image")
-    img.src = galleryItem.preview
-    img.dataset.sourse = galleryItem.original
-    img.alt = galleryItem.description
-    gallery.append(gallery__item)
-    gallery__item.append(link)
-    link.append(img)
-}
+//     gallery__item.classList.add('gallery__item')
+//     link.classList.add("gallery__link")
+//     img.classList.add("gallery__image")
+//     img.src = galleryItem.preview
+//     img.dataset.sourse = galleryItem.original
+//     img.alt = galleryItem.description
+//     gallery.append(gallery__item)
+//     gallery__item.append(link)
+//     link.append(img)
+// }<a class="gallery__link" href="${original}"></a>
+
+const renderList = (products) => products.map(({ original, preview, description }) => `<div class="gallery__item"> <img class="gallery__image" src="${preview}" data-source="${original}" alt="${description}" /></div>`)
+    .join("");
+
+renderList(galleryItems)
+
+gallery.insertAdjacentHTML("beforeend"  , renderList(galleryItems))
+
+const instance = basicLightbox.create(`<img src="">`, {
+        onShow: (instance) => {
+            window.addEventListener("keydown", onEscClick);
+        },
+        onClose: (instance) => {
+            window.removeEventListener("keydown", onEscClick)
+        }
+    })
 
 const showImg = (event) => {
     if (event.target.nodeName !== "IMG") { return}
-    console.log(event.target.nodeName)
 
-    const instance = basicLightbox.create(`
-    <img src=${event.target.dataset.sourse}>
-`)
+    instance.element().querySelector("img").src = event.target.dataset.source
 
     instance.show()
-
-    addEventListener("keydown", (e) => {
-    if (e.key === "Escape") {
-        console.log("close")
-        instance.close()
-    } 
-})
-
 }
 
 gallery.addEventListener("click", showImg)
 
-
-
-
-
-
+    function onEscClick(e)  {
+    if (e.key === "Escape") {
+        console.log("close")
+        instance.close()
+        return
+    } 
+}
 
 
 

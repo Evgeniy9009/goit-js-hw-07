@@ -6,17 +6,17 @@ console.log(galleryItems);
 const gallery = document.querySelector(".gallery")
 console.log(gallery);
 
-const renderList = (products) => products.map(({ original, preview, description }) => `<a class="gallery__link" href="${original}"> <img class="gallery__image" src="${preview}" data-source="${original}" alt="${description}" title="${description}"/></a>`)
+const renderList = (products) => products.map(({ original, preview, description }) => `<a class="gallery__link" href="${original}"> <img class="gallery__image" src="${preview}" data-source="${original}" alt="${description}"/></a>`)
     .join("");
 
 renderList(galleryItems)
 
 gallery.insertAdjacentHTML("beforeend"  , renderList(galleryItems))
 
-let galleryA = new SimpleLightbox('.gallery a');
+let galleryA = new SimpleLightbox('.gallery a', {captionsData : "alt",captionDelay : 250} );
 
-galleryA.on('show.simplelightbox', function () {
-});
+// galleryA.on('show.simplelightbox', function () {
+// });
 
 // galleryA.captionsData = "alt"
 // galleryA.captionDelay = 1000
